@@ -14,6 +14,7 @@ let gameScoreCounterColor = "yellow";
 let gamePressureCounterColor;
 let gamePressure;
 let gameOverMessage;
+let gameAudio = new Audio('audio/gameAudio.mp3');
 
 let platformHeight = 5;
 let platformWidth = 50;
@@ -28,6 +29,8 @@ let platformCircleColor = "blue";
 let diverX = 250;
 let diverY = (platformY - 150);
 let diver = new Image();
+let diver_left = new Image();
+let diver_right = new Image();
 let diver_green = new Image();
 let diver_blue = new Image();
 let diverHeight = 45;
@@ -57,6 +60,8 @@ function init() {
   context = canvas.getContext("2d");    
   document.addEventListener("keydown", onDocumentKeyDown);       
   background.src = "img/background_water.png";    
+  diver_left.src = "img/diver_black_left.png";
+  diver_right.src = "img/diver_black_right.png";
   diver.src = "img/diver_black.png";
   diver_green.src = "img/diver_green.png"
   diver_blue.src = "img/diver_blue.png"    
@@ -100,6 +105,7 @@ function init() {
 function play() {
   if (GAME) {
      draw();
+     playGameSound();
      update();
   } else {
     drawGameover();
@@ -127,6 +133,7 @@ function onDocumentKeyDown(event) {
     
   if (event.keyCode == 37) {
     diverX = diverX - diverSpeed;
+    diver = diver_left;
     if (diverX <= 0) {
       diverX = 0;
     }
@@ -134,6 +141,7 @@ function onDocumentKeyDown(event) {
     
   if (event.keyCode == 39) {
     diverX =  diverX + diverSpeed;
+    diver = diver_right;
     if (diverX >= GAME_WIDTH - diverWidth) {
       diverX = GAME_WIDTH - diverWidth;
     }
@@ -358,4 +366,9 @@ function drawPlatform() {
     //Рисуем платформу  
     context.fillRect(platforms[i][0], platforms[i][1], platformWidth, platformHeight);
   } 
+}
+
+function playGameSound()
+{
+  gameAudio.play();  
 }
